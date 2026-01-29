@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Discover Places - Your ultimate guide to National Parks, City Guides, and Outdoor Adventures. Expert travel tips and preservation information.">
+    <meta name="keywords" content="National Parks, City Guides, Travel, Hiking, Conservation, Tourism">
+    <meta name="author" content="Discover Places">
+    <title>Discover Places | National Parks & City Guides</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Google Fonts (NPS Style - Sans Serif for body, Serif for Headers) -->
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- NPS-Inspired Theme Variables --- */
+        :root {
+            --nps-black: #222222;
+            --nps-footer-gray: #333333;
+            --nps-green: #4b5e26; /* Forest Green Accent */
+            --nps-text-gray: #4a4a4a;
+            --nps-link-blue: #0056b3;
+        }
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            color: var(--nps-text-gray);
+            background-color: #fcfcfc;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Merriweather', serif;
+            color: #000;
+        }
+
+        /* --- Header / Nav --- */
+        .navbar {
+            background-color: var(--nps-black) !important;
+            padding: 1rem 0;
+        }
+        
+        .navbar-brand {
+            font-family: 'Merriweather', serif;
+            font-weight: 700;
+            color: #fff !important;
+            font-size: 1.5rem;
+            letter-spacing: -0.5px;
+        }
+
+        .nav-link {
+            color: #e0e0e0 !important;
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-left: 15px;
+            text-transform: uppercase;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: #fff !important;
+            text-decoration: underline;
+            text-underline-offset: 5px;
+        }
+
+        /* --- Hero Section --- */
+        .hero-section {
+            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('/images/00.jpg');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 100px 0;
+            margin-bottom: 2rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+        }
+
+        .btn-nps {
+            background-color: var(--nps-green);
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            font-weight: 600;
+            border-radius: 4px;
+        }
+        
+        .btn-nps:hover {
+            background-color: #3a4a1e;
+            color: white;
+        }
+
+        /* --- Content Sections --- */
+        .section-header {
+            border-bottom: 3px solid var(--nps-green);
+            padding-bottom: 10px;
+            margin-bottom: 25px;
+            margin-top: 10px;
+        }
+
+        .card {
+            border: 1px solid #ddd;
+            border-radius: 2px;
+            transition: transform 0.2s;
+            /* REMOVED: height: 100%; - This was causing the contact form overflow/overlap issue */
+        }
+
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .card-img-top {
+            height: 200px;
+            object-fit: cover;
+            border-radius: 2px 2px 0 0;
+        }
+
+        /* --- Comparison Table --- */
+        .comparison-table th {
+            background-color: var(--nps-black);
+            color: white;
+        }
+
+        /* --- Spotlight --- */
+        .spotlight-box {
+            background-color: #f4f4f4;
+            border-left: 5px solid var(--nps-green);
+            padding: 2rem;
+        }
+
+        /* --- Articles --- */
+        .article-card {
+            margin-bottom: 30px;
+            border: none;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 20px;
+        }
+        
+        .article-meta {
+            font-size: 0.85rem;
+            color: #777;
+            font-style: italic;
+        }
+
+        /* --- Contact Form --- */
+        .form-control:focus {
+            border-color: var(--nps-green);
+            box-shadow: 0 0 0 0.2rem rgba(75, 94, 38, 0.25);
+        }
+
+        /* --- Footer --- */
+        footer {
+            background-color: var(--nps-footer-gray);
+            color: #d1d1d1;
+            padding: 3rem 0;
+            margin-top: auto;
+        }
+        
+        footer a {
+            color: #fff;
+            text-decoration: none;
+        }
+        
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* --- Utility --- */
+        .d-none-custom {
+            display: none !important;
+        }
+
+        .category-icon {
+            font-size: 2rem;
+            color: var(--nps-green);
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="#" onclick="navigateTo('home');">
+                <img src="/images/logo.png" alt="logo" width="190">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="nav-home" href="#" onclick="navigateTo('home'); return false;">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="nav-about" href="#" onclick="navigateTo('about'); return false;">About Us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="nav-articles" href="#" onclick="navigateTo('articles'); return false;">Articles</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="nav-contact" href="#" onclick="navigateTo('contact'); return false;">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main id="main-content" class="flex-grow-1">
+
+        <!-- HOME SECTION -->
+        <div id="home-section" class="page-section">
+            
+            <!-- Hero -->
+            <section class="hero-section text-center">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-8">
+                            <h1 class="display-3 fw-bold mb-3">Explore the Wild</h1>
+                            <p class="lead mb-4 fs-4">Your comprehensive guide to America's National Parks, historical monuments, and vibrant city escapes.</p>
+                            <button onclick="navigateTo('articles')" class="btn btn-nps btn-lg">Start Exploring</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <div class="container mb-5">
+                
+                <!-- Services/Categories -->
+                <div class="row mb-5 text-center">
+                    <div class="col-12"><h2 class="section-header text-start">What We Offer</h2></div>
+                    <div class="col-md-4 mb-4">
+                        <div class="card p-4 border-0 shadow-sm h-100">
+                            <div class="card-body">
+                                <div class="category-icon">⛰️</div>
+                                <h4 class="card-title">Park Guides</h4>
+                                <p class="card-text">Detailed itineraries for Major National Parks, focusing on hiking trails, camping spots, and seasonal weather advice.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <div class="card p-4 border-0 shadow-sm h-100">
+                            <div class="card-body">
+                                <div class="category-icon">🏙️</div>
+                                <h4 class="card-title">City Explorations</h4>
+                                <p class="card-text">Urban guides helping you find green spaces, historical monuments, and hidden cultural gems within major cities.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <div class="card p-4 border-0 shadow-sm h-100">
+                            <div class="card-body">
+                                <div class="category-icon">🛡️</div>
+                                <h4 class="card-title">Preservation Tips</h4>
+                                <p class="card-text">Education on "Leave No Trace" principles, wildlife safety, and how to protect our natural heritage.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Difference Between Section -->
+                <div class="row mb-5">
+                    <div class="col-12">
+                        <h2 class="section-header">Understanding Public Lands</h2>
+                        <p class="mb-4">Not all protected areas are the same. Here is a quick breakdown of the differences between federal designations.</p>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped comparison-table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Designation</th>
+                                        <th scope="col">Primary Purpose</th>
+                                        <th scope="col">Management</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>National Park</strong></td>
+                                        <td>Preserve scenic beauty, wildlife, and natural heritage. generally large and diverse.</td>
+                                        <td>National Park Service (DOI)</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>National Monument</strong></td>
+                                        <td>Preserve specific natural, cultural, or scientific interest. Can be a single object/site.</td>
+                                        <td>NPS, BLM, or Forest Service</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>National Forest</strong></td>
+                                        <td>Multiple use: recreation, timber, grazing, wildlife, and water conservation.</td>
+                                        <td>US Forest Service (USDA)</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Spotlight Section -->
+                <div class="row mb-5 align-items-center spotlight-box mx-0">
+                    <div class="col-md-6">
+                        <h3 class="fw-bold">Spotlight: The Return of the Wolf</h3>
+                        <p>One of the greatest conservation success stories in North American history is the reintroduction of the gray wolf to Yellowstone National Park. After being eradicated in the 1920s, wolves were brought back in 1995.</p>
+                        <p>This reintroduction triggered a "trophic cascade," regulating elk populations and allowing willow and aspen trees to recover, which in turn brought back beavers and songbirds.</p>
+                        <button onclick="navigateTo('articles')" class="btn btn-outline-dark btn-sm">Read More Stories</button>
+                    </div>
+                    <div class="col-md-6 mt-3 mt-md-0">
+                        <img src="/images/01.jpg" alt="Wolf in snow" class="img-fluid rounded shadow">
+                    </div>
+                </div>
+
+                <!-- Newsletter -->
+                <div class="row justify-content-center mt-5">
+                    <div class="col-md-8 text-center bg-light p-5 border rounded">
+                        <h3>Join Our Ranger List</h3>
+                        <p class="text-muted">Get weekly travel tips and park updates directly to your inbox.</p>
+                        <form class="row g-2 justify-content-center" onsubmit="event.preventDefault(); alert('Thank you for subscribing!');">
+                            <div class="col-auto">
+                                <label for="emailNews" class="visually-hidden">Email</label>
+                                <input type="email" class="form-control" id="emailNews" placeholder="email@example.com" required>
+                            </div>
+                            <div class="col-auto">
+                                <button type="submit" class="btn btn-nps mb-3">Subscribe</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ABOUT SECTION -->
+        <div id="about-section" class="page-section d-none-custom container mt-5">
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
+                    <h2 class="section-header">About Discover Places</h2>
+                    <div class="row">
+                        <div class="col-md-6 mb-4">
+                            <img src="/images/0.jpg" class="img-fluid rounded" alt="Hiker">
+                        </div>
+                        <div class="col-md-6">
+                            <h4 class="mb-3">Our Mission</h4>
+                            <p>Founded in 2023, <strong>Discover Places</strong> was born out of a passion for the American wilderness and the urban jungles that define our culture. We believe that exploration is a fundamental part of the human experience.</p>
+                            <p>Our mission is to provide accurate, respectful, and safety-conscious information to travelers of all experience levels. Whether you are planning a backcountry expedition in Denali or a walking tour of historic Boston, we are your trusted resource.</p>
+                            <h4 class="mb-3 mt-4">Editorial Standards</h4>
+                            <p>We adhere to strict editorial standards. All our content is researched using official government data (NPS, USDA) and verified by experienced travelers. We prioritize sustainability and advocate for the protection of public lands.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ARTICLES SECTION -->
+        <div id="articles-section" class="page-section d-none-custom container mt-5">
+            <h2 class="section-header">Latest Articles & Guides</h2>
+            <p class="lead mb-5">In-depth guides, safety tips, and travel inspiration.</p>
+
+            <div class="row">
+                <!-- Article 1 -->
+                <div class="col-md-6 col-lg-4 mb-4">
+                    <div class="card h-100 article-card border shadow-sm">
+                        <img src="/images/1.jpg" class="card-img-top" alt="Yosemite">
+                        <div class="card-body">
+                            <h5 class="card-title fw-bold">Yosemite: A First Timer's Guide</h5>
+                            <p class="article-meta">Category: National Parks</p>
+                            <p class="card-text">Yosemite National Park is a shrine to human foresight. First protected in 1864, it is best known for its waterfalls, but within its nearly 1,200 square miles, you can find deep valleys, grand meadows, ancient giant sequoias, a vast wilderness area, and much more. Plan your visit during the shoulder seasons (May/September) to avoid the biggest crowds at Tunnel View.</p>
+                            <button class="btn btn-sm btn-outline-dark mt-2">Read Full Guide</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Article 2 -->
+                <div class="col-md-6 col-lg-4 mb-4">
+                    <div class="card h-100 article-card border shadow-sm">
+                        <img src="/images/2.jpg" class="card-img-top" alt="City Street">
+                        <div class="card-body">
+                            <h5 class="card-title fw-bold">5 Hidden Green Spaces in NYC</h5>
+                            <p class="article-meta">Category: City Guides</p>
+                            <p class="card-text">Beyond Central Park lies a network of secret gardens and elevated parks. From the elevated rail line of the High Line to the quiet sanctuary of the Conservatory Garden in East Harlem, New York City offers respite from the concrete jungle. We explore 5 lesser-known parks where locals go to escape the noise and find tranquility amidst the skyscrapers.</p>
+                            <button class="btn btn-sm btn-outline-dark mt-2">Read Full Guide</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Article 3 -->
+                <div class="col-md-6 col-lg-4 mb-4">
+                    <div class="card h-100 article-card border shadow-sm">
+                        <img src="/images/3.jpg" class="card-img-top" alt="Grand Canyon">
+                        <div class="card-body">
+                            <h5 class="card-title fw-bold">Hiking Safety: Desert Editions</h5>
+                            <p class="article-meta">Category: Safety</p>
+                            <p class="card-text">Hiking in the Grand Canyon or Joshua Tree requires different preparation than hiking in the Rockies. Hydration is key—carry at least 4 liters of water per person per day. Avoid hiking during the heat of the day (10 am to 4 pm). Know the signs of heat exhaustion vs. heat stroke. This guide covers the essential gear list for desert trekking.</p>
+                            <button class="btn btn-sm btn-outline-dark mt-2">Read Full Guide</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Article 4 -->
+                <div class="col-md-6 col-lg-4 mb-4">
+                    <div class="card h-100 article-card border shadow-sm">
+                        <img src="/images/4.jpg" class="card-img-top" alt="Kyoto">
+                        <div class="card-body">
+                            <h5 class="card-title fw-bold">Kyoto: Walking Through History</h5>
+                            <p class="article-meta">Category: International</p>
+                            <p class="card-text">Kyoto, Japan's cultural capital, is best explored on foot. The Philosopher's Path offers a meditative walk along a canal lined with cherry trees. Visit Fushimi Inari Taisha early in the morning to beat the crowds. This guide outlines a 3-day walking itinerary that covers the Higashiyama District, Arashiyama Bamboo Grove, and authentic tea houses.</p>
+                            <button class="btn btn-sm btn-outline-dark mt-2">Read Full Guide</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Article 5 -->
+                <div class="col-md-6 col-lg-4 mb-4">
+                    <div class="card h-100 article-card border shadow-sm">
+                        <img src="/images/5.jpg" class="card-img-top" alt="Bear">
+                        <div class="card-body">
+                            <h5 class="card-title fw-bold">Understanding Wildlife Distances</h5>
+                            <p class="article-meta">Category: Wildlife</p>
+                            <p class="card-text">Seeing a bear or bison is a highlight of any trip, but safety is paramount. The general rule is 100 yards (a football field) for bears and wolves, and 25 yards for bison and elk. Never feed wildlife; it habituates them to humans and often leads to the animal's death. Learn how to use a telephoto lens effectively to get great shots safely.</p>
+                            <button class="btn btn-sm btn-outline-dark mt-2">Read Full Guide</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Article 6 -->
+                <div class="col-md-6 col-lg-4 mb-4">
+                    <div class="card h-100 article-card border shadow-sm">
+                        <img src="/images/6.jpg" class="card-img-top" alt="Paris">
+                        <div class="card-body">
+                            <h5 class="card-title fw-bold">Paris on a Budget: City Guide</h5>
+                            <p class="article-meta">Category: City Guides</p>
+                            <p class="card-text">Paris is known for luxury, but it can be incredibly affordable. Many museums offer free entry on the first Sunday of the month. Utilize the 'Velib' bike-sharing system for cheap transport. Eat like a local by grabbing a baguette, cheese, and wine for a picnic in the Tuileries Garden rather than dining in tourist-trap cafes. Here are our top money-saving hacks.</p>
+                            <button class="btn btn-sm btn-outline-dark mt-2">Read Full Guide</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CONTACT SECTION -->
+        <div id="contact-section" class="page-section d-none-custom container mt-5 mb-5">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <h2 class="section-header">Contact Us</h2>
+                    <p class="mb-4">Have questions about a park? Want to submit a travel story? We'd love to hear from you. Fill out the form below and our team will get back to you within 48 hours.</p>
+                    
+                    <!-- Added style="height: auto" explicitly to override any lingering issues, though CSS fix handles it -->
+                    <div class="card p-4 shadow-sm border-0 bg-light" style="height: auto;">
+                        <form onsubmit="event.preventDefault(); alert('Message sent successfully!');">
+                            <div class="mb-3">
+                                <label for="contactName" class="form-label">Full Name</label>
+                                <input type="text" class="form-control" id="contactName" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="contactEmail" class="form-label">Email Address</label>
+                                <input type="email" class="form-control" id="contactEmail" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="contactSubject" class="form-label">Subject</label>
+                                <select class="form-select" id="contactSubject">
+                                    <option selected>General Inquiry</option>
+                                    <option value="1">Report an Error</option>
+                                    <option value="2">Advertising</option>
+                                    <option value="3">Submit an Article</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="contactMessage" class="form-label">Message</label>
+                                <textarea class="form-control" id="contactMessage" rows="5" required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-nps w-100">Send Message</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- LEGAL SECTIONS (Hidden by default, shown via Footer Links) -->
+        
+        <!-- Privacy Policy -->
+        <div id="privacy-section" class="page-section d-none-custom container mt-5">
+            <h2 class="section-header">Privacy Policy</h2>
+            <div class="row">
+                <div class="col-lg-10">
+                    <ol class="list-group list-group-numbered list-group-flush">
+                        <li class="list-group-item"><strong>Data Collection:</strong> We collect basic information such as your IP address, browser type, and access times to improve our website performance.</li>
+                        <li class="list-group-item"><strong>Cookies:</strong> We use cookies to enhance user experience. You can choose to disable cookies through your browser settings.</li>
+                        <li class="list-group-item"><strong>Personal Information:</strong> If you subscribe to our newsletter, we store your email address securely. We never sell your data to third parties.</li>
+                        <li class="list-group-item"><strong>Third-Party Links:</strong> Our site contains links to other websites (e.g., NPS.gov). We are not responsible for the privacy practices of these external sites.</li>
+                        <li class="list-group-item"><strong>Analytics:</strong> We use Google Analytics to understand website traffic. This data is anonymized and aggregated.</li>
+                        <li class="list-group-item"><strong>Advertising:</strong> Third-party vendors, including Google, use cookies to serve ads based on your prior visits to our website.</li>
+                        <li class="list-group-item"><strong>Security:</strong> We implement standard security measures to protect your data, though no method of transmission over the internet is 100% secure.</li>
+                        <li class="list-group-item"><strong>Children's Privacy:</strong> We do not knowingly collect personal information from children under the age of 13.</li>
+                        <li class="list-group-item"><strong>User Rights:</strong> You have the right to request the deletion of your personal data from our records at any time.</li>
+                        <li class="list-group-item"><strong>Policy Updates:</strong> We reserve the right to modify this privacy policy at any time. Changes will be posted on this page.</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <!-- Terms and Conditions -->
+        <div id="terms-section" class="page-section d-none-custom container mt-5">
+            <h2 class="section-header">Terms & Conditions</h2>
+             <div class="row">
+                <div class="col-lg-10">
+                    <ol class="list-group list-group-numbered list-group-flush">
+                        <li class="list-group-item"><strong>Acceptance of Terms:</strong> By accessing Discover Places, you agree to be bound by these website Terms and Conditions of Use.</li>
+                        <li class="list-group-item"><strong>Use License:</strong> Permission is granted to temporarily download one copy of the materials for personal, non-commercial transitory viewing only.</li>
+                        <li class="list-group-item"><strong>Disclaimer:</strong> The materials on this website are provided "as is". We make no warranties, expressed or implied, regarding accuracy or reliability.</li>
+                        <li class="list-group-item"><strong>Limitations:</strong> Discover Places shall not be held liable for any damages arising out of the use or inability to use the materials on our website.</li>
+                        <li class="list-group-item"><strong>Accuracy of Materials:</strong> The materials appearing on the website could include technical, typographical, or photographic errors.</li>
+                        <li class="list-group-item"><strong>Links:</strong> We have not reviewed all of the sites linked to our website and are not responsible for the contents of any such linked site.</li>
+                        <li class="list-group-item"><strong>Modifications:</strong> We may revise these terms of service for our website at any time without notice.</li>
+                        <li class="list-group-item"><strong>Governing Law:</strong> These terms and conditions are governed by and construed in accordance with the laws of the United States.</li>
+                        <li class="list-group-item"><strong>Content Ownership:</strong> All original content, logos, and graphics are the property of Discover Places unless otherwise noted.</li>
+                        <li class="list-group-item"><strong>User Conduct:</strong> Users agree not to use the website for any unlawful purpose or to solicit others to perform or participate in any unlawful acts.</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <img src="/images/logo.png" alt="logo" width="190">
+                    <p class="small">Your trusted companion for national parks, historical sites, and city adventures. Dedicated to education and conservation.</p>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <h5 class="fw-bold text-white">Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" onclick="navigateTo('home'); return false;">Home</a></li>
+                        <li><a href="#" onclick="navigateTo('articles'); return false;">Articles</a></li>
+                        <li><a href="#" onclick="navigateTo('about'); return false;">About Us</a></li>
+                        <li><a href="#" onclick="navigateTo('contact'); return false;">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <h5 class="fw-bold text-white">Legal</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" onclick="navigateTo('terms'); return false;">Terms & Conditions</a></li>
+                        <li><a href="#" onclick="navigateTo('privacy'); return false;">Privacy Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="border-secondary">
+            <div class="text-center small">
+                &copy; All rights reserved. <br>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- SPA Logic Script -->
+    <script>
+        function navigateTo(sectionId) {
+            // 1. Map simple names to IDs
+            const sectionMap = {
+                'home': 'home-section',
+                'about': 'about-section',
+                'articles': 'articles-section',
+                'contact': 'contact-section',
+                'privacy': 'privacy-section',
+                'terms': 'terms-section'
+            };
+
+            const targetId = sectionMap[sectionId];
+            if (!targetId) return;
+
+            // 2. Hide all sections
+            const sections = document.querySelectorAll('.page-section');
+            sections.forEach(sec => {
+                sec.classList.add('d-none-custom');
+            });
+
+            // 3. Show target section
+            document.getElementById(targetId).classList.remove('d-none-custom');
+
+            // 4. Update Header Navigation Active State
+            // Remove active class from all
+            document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
+            
+            // Add active class if it exists in the main menu
+            const activeLink = document.getElementById('nav-' + sectionId);
+            if (activeLink) {
+                activeLink.classList.add('active');
+            }
+
+            // 5. Scroll to top
+            window.scrollTo(0, 0);
+
+            // 6. Close mobile menu if open
+            const navbarCollapse = document.getElementById('navbarNav');
+            if (navbarCollapse.classList.contains('show')) {
+                const bsCollapse = new bootstrap.Collapse(navbarCollapse, {toggle: true});
+                bsCollapse.hide();
+            }
+        }
+
+        // Initialize: Ensure Home is visible on load
+        document.addEventListener('DOMContentLoaded', () => {
+            navigateTo('home');
+        });
+    </script>
+
+
+
+</body>
+</html>
